@@ -1,0 +1,1631 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Bicol Animals</title>
+
+  <style>
+    :root {
+      --green: #14532d;
+      --green-light: #22c55e;
+      --dark: #102a1b;
+      --cream: #f5f7ef;
+      --white: #ffffff;
+      --text: #243328;
+      --muted: #647268;
+      --border: #dce5dd;
+      --shadow: 0 10px 30px rgba(16, 42, 27, 0.10);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 520px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      padding: 80px 20px;
+      background:
+        linear-gradient(rgba(5, 35, 18, .70), rgba(5, 35, 18, .70)),
+        url("https://images.unsplash.com/photo-1549366021-9f761d450615?auto=format&fit=crop&w=1800&q=85")
+        center/cover no-repeat;
+    }
+
+    .hero-content {
+      max-width: 950px;
+    }
+
+    .hero h1 {
+      font-size: clamp(3.5rem, 10vw, 8rem);
+      letter-spacing: 8px;
+      font-weight: 900;
+      margin-bottom: 15px;
+      text-transform: capitalize;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 750px;
+      margin: auto;
+      color: #edf7ee;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 8px 18px;
+      border: 1px solid rgba(255,255,255,.5);
+      border-radius: 30px;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: .8rem;
+    }
+
+    /* Navigation */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(16, 42, 27, .97);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      transition: box-shadow .3s ease, padding .3s ease, background .3s ease;
+    }
+
+    nav.scrolled {
+      box-shadow: 0 12px 30px rgba(5, 15, 9, .45);
+      background: rgba(12, 32, 20, .99);
+    }
+
+    .nav-bar {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      transition: padding .3s ease;
+    }
+
+    nav.scrolled .nav-bar {
+      padding: 7px 20px;
+    }
+
+    .nav-brand {
+      color: #d5e8da;
+      font-weight: bold;
+      font-size: .82rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      opacity: .8;
+    }
+
+    .nav-toggle {
+      width: 38px;
+      height: 34px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, .25);
+      background: rgba(255, 255, 255, .06);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .2s ease, transform .2s ease;
+    }
+
+    .nav-toggle:hover {
+      background: rgba(255, 255, 255, .18);
+      transform: translateY(-1px);
+    }
+
+    .nav-toggle-icon,
+    .nav-toggle-icon::before,
+    .nav-toggle-icon::after {
+      content: "";
+      display: block;
+      width: 16px;
+      height: 2px;
+      background: white;
+      border-radius: 2px;
+      transition: transform .3s ease, opacity .25s ease, top .3s ease;
+    }
+
+    .nav-toggle-icon {
+      position: relative;
+    }
+
+    .nav-toggle-icon::before,
+    .nav-toggle-icon::after {
+      position: absolute;
+      left: 0;
+    }
+
+    .nav-toggle-icon::before {
+      top: -6px;
+    }
+
+    .nav-toggle-icon::after {
+      top: 6px;
+    }
+
+    nav.nav-closed .nav-toggle-icon {
+      background: transparent;
+    }
+
+    nav.nav-closed .nav-toggle-icon::before {
+      top: 0;
+      transform: rotate(45deg);
+    }
+
+    nav.nav-closed .nav-toggle-icon::after {
+      top: 0;
+      transform: rotate(-45deg);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 5px;
+      padding: 0 20px 14px;
+      overflow: hidden;
+      max-height: 260px;
+      opacity: 1;
+      transform: translateY(0);
+      transition: max-height .45s cubic-bezier(.65, 0, .35, 1),
+                  opacity .3s ease,
+                  transform .35s ease,
+                  padding .35s ease;
+    }
+
+    nav.nav-closed .nav-container {
+      max-height: 0;
+      opacity: 0;
+      transform: translateY(-6px);
+      padding-top: 0;
+      padding-bottom: 0;
+      pointer-events: none;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 9px 16px;
+      border-radius: 20px;
+      font-size: .9rem;
+      letter-spacing: .2px;
+      transition: background .25s, color .25s, transform .15s;
+      position: relative;
+    }
+
+    nav a:hover {
+      background: var(--green-light);
+      color: var(--dark);
+      transform: translateY(-1px);
+    }
+
+    nav a.active {
+      background: rgba(34, 197, 94, .18);
+      color: var(--green-light);
+      font-weight: bold;
+    }
+
+    nav a.active::after {
+      content: "";
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 3px;
+      height: 2px;
+      background: var(--green-light);
+      border-radius: 2px;
+    }
+
+    /* Main Content */
+    main {
+      max-width: 1250px;
+      margin: auto;
+      padding: 70px 20px;
+    }
+
+    .intro {
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto 60px;
+    }
+
+    .intro h2 {
+      font-size: 2.6rem;
+      color: var(--green);
+      margin-bottom: 15px;
+    }
+
+    .section {
+      margin-bottom: 80px;
+      scroll-margin-top: 90px;
+    }
+
+    .section-heading {
+      margin-bottom: 30px;
+    }
+
+    .section-heading span {
+      display: inline-block;
+      color: var(--green-light);
+      text-transform: uppercase;
+      font-weight: bold;
+      letter-spacing: 2px;
+      font-size: .8rem;
+      margin-bottom: 5px;
+    }
+
+    .section-heading h2 {
+      color: var(--dark);
+      font-size: 2.2rem;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      max-width: 800px;
+    }
+
+    /* Category Titles */
+    .category-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 35px 0 20px;
+      color: var(--green);
+      scroll-margin-top: 90px;
+    }
+
+    .category-title::after {
+      content: "";
+      height: 1px;
+      flex: 1;
+      background: var(--border);
+    }
+
+    /* Animal Cards */
+    .animal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 25px;
+    }
+
+    .animal-card {
+      background: var(--white);
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      transition: transform .25s, box-shadow .25s;
+      cursor: pointer;
+    }
+
+    .animal-card:hover {
+      transform: translateY(-7px);
+      box-shadow: 0 18px 40px rgba(16, 42, 27, .16);
+    }
+
+    .animal-card:focus-visible,
+    .feature-card:focus-visible {
+      outline: 3px solid var(--green-light);
+      outline-offset: 3px;
+    }
+
+    .animal-image {
+      height: 220px;
+      width: 100%;
+      object-fit: cover;
+      background: #dfe9e1;
+      transition: transform .5s ease;
+    }
+
+    .animal-card:hover .animal-image {
+      transform: scale(1.05);
+    }
+
+    .card-content {
+      padding: 22px;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #e7f5e9;
+      color: var(--green);
+      padding: 4px 10px;
+      border-radius: 15px;
+      font-size: .72rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .animal-card h3 {
+      color: var(--dark);
+      font-size: 1.25rem;
+      margin-bottom: 2px;
+    }
+
+    .scientific {
+      font-family: Georgia, serif;
+      font-style: italic;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .animal-card p {
+      font-size: .92rem;
+      color: #526158;
+    }
+
+    .read-more-hint {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: .78rem;
+      font-weight: bold;
+      color: var(--green-light);
+      letter-spacing: .3px;
+    }
+
+    /* Feature Card */
+    .feature-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: var(--dark);
+      color: white;
+      border-radius: 25px;
+      overflow: hidden;
+      margin-bottom: 30px;
+      cursor: pointer;
+      transition: box-shadow .25s, transform .25s;
+    }
+
+    .feature-card:hover {
+      box-shadow: 0 20px 45px rgba(16, 42, 27, .3);
+      transform: translateY(-4px);
+    }
+
+    .feature-card img {
+      width: 100%;
+      height: 100%;
+      min-height: 360px;
+      object-fit: cover;
+      transition: transform .6s ease;
+    }
+
+    .feature-card:hover img {
+      transform: scale(1.04);
+    }
+
+    .feature-content {
+      padding: 45px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .feature-content .tag {
+      background: rgba(255,255,255,.12);
+      color: #b8f7c5;
+      width: fit-content;
+    }
+
+    .feature-content h3 {
+      font-size: 2.2rem;
+      margin-bottom: 8px;
+    }
+
+    .feature-content .scientific {
+      color: #b5c8bb;
+    }
+
+    .feature-content p {
+      color: #d5e2d8;
+    }
+
+    /* Info Box */
+    .info-box {
+      background: #e9f6ec;
+      border-left: 5px solid var(--green-light);
+      padding: 25px;
+      border-radius: 12px;
+      margin: 30px 0;
+    }
+
+    .info-box h3 {
+      color: var(--green);
+      margin-bottom: 7px;
+    }
+
+    /* Credits Section */
+    .credits-section {
+      margin: 30px 0 0;
+      padding: 30px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .credits-section h3 {
+      color: var(--green);
+      margin-bottom: 6px;
+    }
+
+    .credits-section > p {
+      color: var(--muted);
+      font-size: .9rem;
+      margin-bottom: 18px;
+    }
+
+    .credits-columns {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 6px 30px;
+    }
+
+    .credits-list {
+      list-style: none;
+      font-size: .85rem;
+      color: #526158;
+    }
+
+    .credits-list li {
+      padding: 5px 0;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .credits-list a {
+      color: var(--green);
+      text-decoration: none;
+    }
+
+    .credits-list a:hover {
+      text-decoration: underline;
+    }
+
+    .credits-note {
+      margin-top: 18px;
+      font-size: .8rem;
+      color: var(--muted);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--dark);
+      color: white;
+      text-align: center;
+      padding: 50px 20px;
+    }
+
+    footer h2 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    footer p {
+      color: #b8c9bd;
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .copyright {
+      margin-top: 30px;
+      font-size: .8rem;
+      color: #809286;
+    }
+
+    /* Responsive */
+    @media (max-width: 750px) {
+      .hero {
+        min-height: 430px;
+      }
+
+      .hero h1 {
+        letter-spacing: 4px;
+      }
+
+      .feature-card {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-card img {
+        min-height: 250px;
+      }
+
+      .feature-content {
+        padding: 30px;
+      }
+
+      .feature-content h3 {
+        font-size: 1.7rem;
+      }
+    }
+
+    /* ---------- Animal Detail Modal (click a card to expand) ---------- */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(6, 18, 11, .78);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s ease;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-box {
+      background: var(--white);
+      border-radius: 22px;
+      max-width: 700px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      position: relative;
+      transform: translateY(30px) scale(.97);
+      transition: transform .35s cubic-bezier(.175, .885, .32, 1.275);
+      box-shadow: 0 30px 70px rgba(0,0,0,.4);
+    }
+
+    .modal-overlay.open .modal-box {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      border-radius: 22px 22px 0 0;
+      background: #dfe9e1;
+    }
+
+    .modal-inner {
+      padding: 30px 35px 38px;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(16, 42, 27, .85);
+      color: white;
+      font-size: 1.5rem;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .2s, transform .2s;
+    }
+
+    .modal-close:hover {
+      background: var(--green);
+      transform: scale(1.08);
+    }
+
+    .modal-inner h2 {
+      font-size: 1.8rem;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+
+    .modal-inner .scientific {
+      font-size: 1.05rem;
+      margin-bottom: 16px;
+    }
+
+    .modal-inner p {
+      font-size: 1rem;
+      color: #45524a;
+      line-height: 1.75;
+    }
+
+    /* Daily Quiz Widget */
+    .quiz-widget {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      width: 320px;
+      background: var(--white);
+      border: 2px solid var(--green);
+      border-radius: 15px;
+      box-shadow: 0 15px 35px rgba(16, 42, 27, 0.25);
+      z-index: 1000;
+      overflow: hidden;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity .3s ease;
+    }
+
+    .quiz-widget.hidden {
+      transform: translateY(150%);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .quiz-header {
+      background: var(--green);
+      color: white;
+      padding: 12px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .quiz-header h3 {
+      font-size: 1.1rem;
+      margin: 0;
+    }
+
+    .quiz-header button {
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 1.8rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: transform 0.2s, opacity .2s;
+    }
+
+    .quiz-header button:hover {
+      transform: scale(1.1);
+    }
+
+    .quiz-header button:disabled {
+      opacity: .35;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .quiz-body {
+      padding: 20px;
+    }
+
+    .quiz-question {
+      font-weight: bold;
+      color: var(--dark);
+      margin-bottom: 15px;
+      font-size: 0.95rem;
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .quiz-btn {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: left;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+
+    .quiz-btn:hover:not(:disabled) {
+      background: #e7f5e9;
+      border-color: var(--green-light);
+    }
+
+    .quiz-btn:disabled {
+      cursor: not-allowed;
+    }
+
+    .quiz-btn.correct {
+      background: var(--green-light);
+      color: white;
+      border-color: var(--green);
+    }
+
+    .quiz-btn.wrong {
+      background: #ef4444;
+      color: white;
+      border-color: #dc2626;
+    }
+
+    .quiz-feedback {
+      margin-top: 15px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      text-align: center;
+      display: none;
+    }
+
+    .quiz-locked-note {
+      margin-top: 12px;
+      font-size: .76rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .quiz-answer-note {
+      margin-top: 12px;
+      font-size: .76rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    /* Floating button to bring the quiz widget back after closing it */
+    .quiz-toggle-btn {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: var(--green);
+      color: white;
+      border: none;
+      font-size: 1.6rem;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(16, 42, 27, .35);
+      z-index: 999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      transition: transform .25s, box-shadow .25s;
+    }
+
+    .quiz-toggle-btn.show {
+      display: flex;
+    }
+
+    .quiz-toggle-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 14px 30px rgba(16, 42, 27, .45);
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">Wildlife • Nature • Conservation</div>
+
+      <h1>Bicol Animals</h1>
+
+      <p>
+        Discover the native, endemic, marine, terrestrial, and tourism-associated
+        animals of the Bicol Region of the Philippines.
+      </p>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-bar">
+      <span class="nav-brand">Explore Bicol Animals</span>
+      <button id="nav-toggle" class="nav-toggle" aria-expanded="true" aria-controls="nav-links" aria-label="Toggle navigation menu">
+        <span class="nav-toggle-icon"></span>
+      </button>
+    </div>
+    <div class="nav-container" id="nav-links">
+      <a href="#native">Native Wildlife</a>
+      <a href="#mammals">Mammals</a>
+      <a href="#birds">Birds & Invertebrates</a>
+      <a href="#marine">Marine Attractions</a>
+      <a href="#tourism">Tourism Animals</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- Intro -->
+    <section class="intro">
+      <h2>Wildlife of the Bicol Region</h2>
+
+      <p>
+        Bicol is home to forests, volcanic mountains, rivers, grasslands,
+        mangroves, and productive coastal waters. These habitats support
+        remarkable Philippine wildlife, including species with extremely
+        restricted ranges as well as animals that have become major
+        attractions for ecotourism.
+      </p>
+    </section>
+    <section class="section" id="native">
+
+      <div class="section-heading">
+        <span>Part 01</span>
+        <h2>Native & Highly Endemic Animals</h2>
+        <p>
+          Wildlife associated with Bicol's forests and protected landscapes,
+          particularly Mount Isarog and other remaining forest habitats.
+        </p>
+      </div>
+
+
+      <!-- Mammals -->
+      <h3 class="category-title" id="mammals">Mammals</h3>
+
+      <div class="animal-grid">
+
+        <article class="animal-card">
+          <img class="animal-image"
+               src="https://en.wikipedia.org/api/rest_v1/page/summary/philippine_deer"
+               data-wiki="philippine_deer"
+               alt="Philippine Brown Deer">
+
+          <div class="card-content">
+            <span class="tag">Native Mammal</span>
+            <h3>Philippine Brown Deer</h3>
+            <div class="scientific">Rusa marianna</div>
+            <p>
+              A slender Philippine deer with a dark brown coat and short
+              antlers. Deer occur in suitable forest and grassland habitats
+              in the region, although hunting and habitat loss have reduced
+              their populations.
+            </p>
+            <span class="read-more-hint">Tap to read more →</span>
+          </div>
+        </article>
+
+
+        <article class="animal-card">
+          <img class="animal-image"
+               src="https://en.wikipedia.org/api/rest_v1/page/summary/philippine_warty_pig"
+               data-wiki="philippine_warty_pig"
+               alt="Philippine Warty Pig">
+
+          <div class="card-content">
+            <span class="tag">Native Mammal</span>
+            <h3>Philippine Warty Pig</h3>
+            <div class="scientific">Sus philippensis</div>
+            <p>
+              A native wild pig that inhabits forest ecosystems. Its facial
+              warts provide protection during aggressive encounters between
+              individuals.
+            </p>
+            <span class="read-more-hint">Tap to read more →</span>
+          </div>
+        </article>
+
+
+        <article class="animal-card">
+          <img class="animal-image"
+               src="https://en.wikipedia.org/api/rest_v1/page/summary/crab-eating_macaque"
+               data-wiki="crab-eating_macaque"
+               alt="Philippine Long-Tailed Macaque">
+
+          <div class="card-content">
+            <span class="tag">Native Primate</span>
+            <h3>Philippine Long-Tailed Macaque</h3>
+            <div class="scientific">Macaca fascicularis philippensis</div>
+            <p>
+              A native macaque associated with forest and river environments
+              and occasionally encountered around suitable natural habitats.
+            </p>
+            <span class="read-more-hint">Tap to read more →</span>
+          </div>
+        </article>
+
+
+        <article class="animal-card">
+          <img class="animal-image"
+               src="https://en.wikipedia.org/api/rest_v1/page/summary/malay_civet"
+               data-wiki="malay_civet"
+               alt="Malay Civet">
+
+          <div class="card-content">
+            <span class="tag">Forest Mammal</span>
+            <h3>Malay Civet</h3>
+            <div class="scientific">Viverra tangalunga</div>
+            <p>
+              A mostly nocturnal viverrid that occupies forested habitats and
+              feeds on a variety of small animals and plant material.
+            </p>
+            <span class="read-more-hint">Tap to read more →</span>
+          </div>
+        </article>
+
+
+        <article class="animal-card">
+          <img class="animal-image"
+               src="https://en.wikipedia.org/api/rest_v1/page/summary/asian_palm_civet"
+               data-wiki="asian_palm_civet"
+               alt="Palm Civet">
+
+          <div class="card-content">
+            <span class="tag">Forest Mammal</span>
+            <h3>Palm Civet</h3>
+            <div class="scientific">Paradoxurus hermaphroditus</div>
+            <p>
+              A nocturnal tree-dwelling mammal that feeds on fruits and other
+              food resources in forest and agricultural landscapes.
+            </p>
+            <span class="read-more-hint">Tap to read more →</span>
+          </div>
+        </article>
+
+      </div>
+
+
+      <!-- Birds and Invertebrates -->
+      <h3 class="category-title" id="birds">
+        Birds & Invertebrates
+      </h3>
+
+      <div class="animal-grid">
+
+        <article class="animal-card">
+          <img class="animal-image"
+               src="https://en.wikipedia.org/api/rest_v1/page/summary/velvet-fronted_nuthatch"
+               data-wiki="velvet-fronted_nuthatch"
+               alt="Velvet-Fronted Nuthatch">
+
+          <div class="card-content">
+            <span class="tag">Forest Bird</span>
+            <h3>Velvet-Fronted Nuthatch</h3>
+            <div class="scientific">Sitta frontalis</div>
+            <p>
+              A small colorful forest bird found in Philippine woodland
+              habitats, including mountain forests.
+            </p>
+            <span class="read-more-hint">Tap to read more →</span>
+          </div>
+        </article>
+
+
+        <article class="animal-card">
+          <img class="animal-image"
+               src="https://en.wikipedia.org/api/rest_v1/page/summary/luzon_bleeding-heart"
+               data-wiki="luzon_bleeding-heart"
+               alt="Luzon Bleeding-Heart">
+
+          <div class="card-content">
+            <span class="tag">Philippine Endemic</span>
+            <h3>Luzon Bleeding-Heart</h3>
+            <div class="scientific">Gallicolumba luzonica</div>
+            <p>
+              A shy ground-dwelling pigeon famous for its vivid red breast
+              marking resembling a drop of blood.
+            </p>
+            <span class="read-more-hint">Tap to read more →</span>
+          </div>
+        </article>
+
+      </div>
+
+    </section>
+    <section class="section" id="marine">
+
+      <div class="section-heading">
+        <span>Part 02</span>
+        <h2>Popular Wildlife Tourist Attractions</h2>
+        <p>
+          Some of Bicol's most famous wildlife experiences are marine
+          encounters, birdwatching destinations, and cultural attractions.
+        </p>
+      </div>
+
+
+      <!-- Whale Shark Feature -->
+      <article class="feature-card">
+
+        <img
+          src="https://en.wikipedia.org/api/rest_v1/page/summary/whale_shark"
+          data-wiki="whale_shark"
+          alt="Whale Shark">
+
+        <div class="feature-content">
+          <span class="tag">Bicol's Famous Marine Attraction</span>
+
+          <h3>Whale Shark</h3>
+
+          <div class="scientific">
+            Rhincodon typus • "Butanding"
+          </div>
+
+          <p>
+            Donsol in Sorsogon is internationally known for whale shark
+            encounters. These enormous filter-feeding sharks can reach
+            extraordinary sizes and seasonally occur in waters around the
+            region.
+          </p>
+          <span class="read-more-hint">Tap to read more →</span>
+        </div>
+
+      </article>
+
+
+      <div class="animal-grid">
+
+        <!-- Manta -->
+        <article class="animal-card">
+          <img class="animal-image"
+               src="https://en.wikipedia.org/api/rest_v1/page/summary/giant_oceanic_manta_ray"
+               data-wiki="giant_oceanic_manta_ray"
+               alt="Giant Manta Ray">
+
+          <div class="card-content">
+            <span class="tag">Marine Attraction</span>
+            <h3>Giant Manta Ray</h3>
+            <div class="scientific">Mobula birostris</div>
+            <p>
+              Giant manta rays are spectacular pelagic rays associated with
+              productive waters and cleaning stations. The Manta Bowl area
+              is famous among divers for manta encounters.
+            </p>
+            <span class="read-more-hint">Tap to read more →</span>
+          </div>
+        </article>
+
+
+        <!-- Thresher -->
+        <article class="animal-card">
+          <img class="animal-image"
+               src="https://en.wikipedia.org/api/rest_v1/page/summary/thresher_shark"
+               data-wiki="thresher_shark"
+               alt="Thresher Shark">
+
+          <div class="card-content">
+            <span class="tag">Marine Predator</span>
+            <h3>Thresher Sharks</h3>
+            <div class="scientific">Alopias spp.</div>
+            <p>
+              Deep-water sharks recognized by their exceptionally long upper
+              caudal fins. They are highly sought-after sightings for
+              experienced divers.
+            </p>
+            <span class="read-more-hint">Tap to read more →</span>
+          </div>
+        </article>
+
+
+        <!-- Hammerhead -->
+        <article class="animal-card">
+          <img class="animal-image"
+               src="https://en.wikipedia.org/api/rest_v1/page/summary/hammerhead_shark"
+               data-wiki="hammerhead_shark"
+               alt="Hammerhead Shark">
+
+          <div class="card-content">
+            <span class="tag">Marine Predator</span>
+            <h3>Hammerhead Sharks</h3>
+            <div class="scientific">Sphyrnidae</div>
+            <p>
+              Distinctive sharks with laterally expanded heads. Encounters
+              with hammerheads are among the attractions of advanced
+              Philippine scuba diving.
+            </p>
+            <span class="read-more-hint">Tap to read more →</span>
+          </div>
+        </article>
+
+      </div>
+
+    </section>
+
+
+    <!-- Terrestrial Tourism -->
+    <section class="section" id="tourism">
+
+      <div class="section-heading">
+        <span>Wildlife & Tourism</span>
+        <h2>Avian & Terrestrial Attractions</h2>
+        <p>
+          These animals contribute to Bicol's ecotourism, birdwatching,
+          photography, agriculture, and cultural tourism.
+        </p>
+      </div>
+
+
+      <div class="animal-grid">
+
+        <!-- Flying Fox -->
+        <article class="animal-card">
+          <img class="animal-image"
+               src="https://en.wikipedia.org/api/rest_v1/page/summary/giant_golden-crowned_flying_fox"
+               data-wiki="giant_golden-crowned_flying_fox"
+               alt="Giant Golden-Crowned Flying Fox">
+
+          <div class="card-content">
+            <span class="tag">Native Bat</span>
+            <h3>Giant Golden-Crowned Flying Fox</h3>
+            <div class="scientific">Acerodon jubatus</div>
+            <p>
+              One of the world's largest bats. Its golden-orange head and
+              enormous wings make it a spectacular subject for wildlife
+              photography.
+            </p>
+            <span class="read-more-hint">Tap to read more →</span>
+          </div>
+        </article>
+
+
+        <!-- Eagle Owl -->
+        <article class="animal-card">
+          <img class="animal-image"
+               src="https://en.wikipedia.org/api/rest_v1/page/summary/philippine_eagle-owl"
+               data-wiki="philippine_eagle-owl"
+               alt="Philippine Eagle-Owl">
+
+          <div class="card-content">
+            <span class="tag">Birdwatching</span>
+            <h3>Philippine Eagle-Owl</h3>
+            <div class="scientific">Bubo philippensis</div>
+            <p>
+              A large Philippine owl with striking yellow eyes. Mature forest
+              habitats are particularly important for this impressive nocturnal
+              predator.
+            </p>
+            <span class="read-more-hint">Tap to read more →</span>
+          </div>
+        </article>
+
+      </div>
+
+    </section>
+
+
+    <!-- Conservation -->
+    <section class="info-box">
+      <h3>Protecting Bicol's Wildlife</h3>
+
+      <p>
+        Bicol's biodiversity depends on the protection of forests, watersheds,
+        rivers, coastal habitats, mangroves, and marine ecosystems. Responsible
+        tourism should minimize disturbance to wildlife and support local
+        conservation programs and communities.
+      </p>
+    </section>
+
+    <!-- Image Credits -->
+    <section class="credits-section" id="credits">
+      <h3>Image Credits</h3>
+      <p>
+        Animal photographs are fetched live from the Wikipedia REST API
+        (thumbnail images belong to their respective Wikipedia articles and
+        contributors). Links below go to the source article for each photo.
+      </p>
+
+      <div class="credits-columns">
+        <ul class="credits-list">
+          <li><a href="https://en.wikipedia.org/wiki/Philippine_deer" target="_blank" rel="noopener">Philippine Brown Deer — Wikipedia</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Philippine_warty_pig" target="_blank" rel="noopener">Philippine Warty Pig — Wikipedia</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Crab-eating_macaque" target="_blank" rel="noopener">Philippine Long-Tailed Macaque — Wikipedia</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Malay_civet" target="_blank" rel="noopener">Malay Civet — Wikipedia</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Asian_palm_civet" target="_blank" rel="noopener">Palm Civet — Wikipedia</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Velvet-fronted_nuthatch" target="_blank" rel="noopener">Velvet-Fronted Nuthatch — Wikipedia</a></li>
+        </ul>
+
+        <ul class="credits-list">
+          <li><a href="https://en.wikipedia.org/wiki/Luzon_bleeding-heart" target="_blank" rel="noopener">Luzon Bleeding-Heart — Wikipedia</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Whale_shark" target="_blank" rel="noopener">Whale Shark — Wikipedia</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Giant_oceanic_manta_ray" target="_blank" rel="noopener">Giant Manta Ray — Wikipedia</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Thresher_shark" target="_blank" rel="noopener">Thresher Sharks — Wikipedia</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Hammerhead_shark" target="_blank" rel="noopener">Hammerhead Sharks — Wikipedia</a></li>
+        </ul>
+
+        <ul class="credits-list">
+          <li><a href="https://en.wikipedia.org/wiki/Giant_golden-crowned_flying_fox" target="_blank" rel="noopener">Giant Golden-Crowned Flying Fox — Wikipedia</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Philippine_eagle-owl" target="_blank" rel="noopener">Philippine Eagle-Owl — Wikipedia</a></li>
+          <li><a href="https://unsplash.com/photos/9f761d450615" target="_blank" rel="noopener">Hero background photo — Unsplash</a></li>
+          <li><a href="https://unsplash.com/photos/9a56873867b5" target="_blank" rel="noopener">Fallback photo (used if a Wikipedia image fails to load) — Unsplash</a></li>
+        </ul>
+      </div>
+
+      <p class="credits-note">
+        Photos are pulled dynamically at page load and may change if the
+        source article's lead image changes. If an image fails to load, a
+        generic wildlife photo from Unsplash is shown in its place.
+      </p>
+    </section>
+
+  </main>
+
+
+  <!-- Footer -->
+  <footer>
+
+    <h2>Bicol Animals</h2>
+
+    <p>
+      A visual guide to the remarkable wildlife and animal attractions
+      associated with the Bicol Region of the Philippines.
+    </p>
+
+    <div class="copyright">
+      © 2026 Bicol Animals • Wildlife & Ecotourism Guide
+    </div>
+
+  </footer>
+
+  <!-- Animal detail modal (filled in dynamically by JS) -->
+  <div id="animal-modal" class="modal-overlay">
+    <div class="modal-box">
+      <button class="modal-close" aria-label="Close">&times;</button>
+      <img class="modal-img" src="" alt="">
+      <div class="modal-inner">
+        <span class="tag" id="modal-tag"></span>
+        <h2 id="modal-title"></h2>
+        <div class="scientific" id="modal-sci"></div>
+        <p id="modal-desc"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Daily Quiz -->
+  <div id="quiz-widget" class="quiz-widget">
+    <div class="quiz-header">
+      <h3>🐝 Daily Quiz Bee</h3>
+      <button id="close-quiz" aria-label="Close Quiz" title="Answer the question to close">&times;</button>
+    </div>
+    <div id="quiz-body" class="quiz-body">
+      <!-- Question and options will load here -->
+    </div>
+  </div>
+
+  <!-- Button to bring the quiz back after it's been closed -->
+  <button id="quiz-toggle-btn" class="quiz-toggle-btn" aria-label="Open Daily Quiz">🐝</button>
+
+  <script>
+    /*
+      Wikipedia's REST API is used for the animal photographs.
+    */
+
+    const fallbackImage =
+      "https://images.unsplash.com/photo-1474511320723-9a56873867b5" +
+      "?auto=format&fit=crop&w=1000&q=80";
+
+    document.querySelectorAll("[data-wiki]").forEach(async (image) => {
+
+      const article = image.dataset.wiki;
+
+      try {
+
+        const response = await fetch(
+          "https://en.wikipedia.org/api/rest_v1/page/summary/" +
+          encodeURIComponent(article)
+        );
+
+        if (!response.ok) {
+          throw new Error("Image unavailable");
+        }
+
+        const data = await response.json();
+
+        if (data.thumbnail && data.thumbnail.source) {
+          image.src = data.thumbnail.source;
+        } else {
+          image.src = fallbackImage;
+        }
+
+      } catch (error) {
+        image.src = fallbackImage;
+      }
+
+    });
+
+
+    /*
+      Add a lazy-loading effect to all animal images.
+    */
+
+    document.querySelectorAll(".animal-image").forEach(image => {
+      image.loading = "lazy";
+    });
+
+
+    /*
+      Smooth scrolling + active-link highlighting for navigation.
+    */
+
+    const navEl = document.querySelector("nav");
+    const navLinks = document.querySelectorAll("nav a");
+
+    document.querySelectorAll("nav a").forEach(link => {
+
+      link.addEventListener("click", function(event) {
+
+        const target = document.querySelector(
+          this.getAttribute("href")
+        );
+
+        if (target) {
+          event.preventDefault();
+
+          target.scrollIntoView({
+            behavior: "smooth"
+          });
+        }
+
+      });
+
+    });
+
+    // Give the sticky nav some depth once the page scrolls under it.
+    window.addEventListener("scroll", () => {
+      navEl.classList.toggle("scrolled", window.scrollY > 20);
+    });
+
+    // Let the nav links be collapsed/expanded with the hamburger button.
+    const navToggleBtn = document.getElementById("nav-toggle");
+
+    navToggleBtn.addEventListener("click", () => {
+      const isNowClosed = navEl.classList.toggle("nav-closed");
+      navToggleBtn.setAttribute("aria-expanded", String(!isNowClosed));
+    });
+
+    // Highlight whichever section is currently in view.
+    const navSections = Array.from(navLinks)
+      .map(link => document.querySelector(link.getAttribute("href")))
+      .filter(Boolean);
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = "#" + entry.target.id;
+          navLinks.forEach(l =>
+            l.classList.toggle("active", l.getAttribute("href") === id)
+          );
+        }
+      });
+    }, { rootMargin: "-40% 0px -50% 0px" });
+
+    navSections.forEach(sec => sectionObserver.observe(sec));
+
+
+    /*
+      Click-to-expand: tapping any animal card or the whale shark feature
+      card opens a larger, easier-to-read modal with the full details.
+    */
+
+    const modalOverlay = document.getElementById("animal-modal");
+    const modalImg = modalOverlay.querySelector(".modal-img");
+    const modalTag = document.getElementById("modal-tag");
+    const modalTitle = document.getElementById("modal-title");
+    const modalSci = document.getElementById("modal-sci");
+    const modalDesc = document.getElementById("modal-desc");
+
+    function openModal(card) {
+      const img = card.querySelector("img");
+      const tag = card.querySelector(".tag");
+      const title = card.querySelector("h3");
+      const sci = card.querySelector(".scientific");
+      const desc = card.querySelector(".card-content p, .feature-content p");
+
+      modalImg.src = img ? img.src : fallbackImage;
+      modalImg.alt = img ? img.alt : "";
+      modalTag.textContent = tag ? tag.textContent : "";
+      modalTitle.textContent = title ? title.textContent : "";
+      modalSci.textContent = sci ? sci.textContent : "";
+      modalDesc.textContent = desc ? desc.textContent.trim() : "";
+
+      modalOverlay.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeModal() {
+      modalOverlay.classList.remove("open");
+      document.body.style.overflow = "";
+    }
+
+    document.querySelectorAll(".animal-card, .feature-card").forEach(card => {
+      card.setAttribute("tabindex", "0");
+      card.setAttribute("role", "button");
+
+      card.addEventListener("click", () => openModal(card));
+
+      card.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openModal(card);
+        }
+      });
+    });
+
+    modalOverlay.querySelector(".modal-close").addEventListener("click", closeModal);
+
+    modalOverlay.addEventListener("click", (event) => {
+      if (event.target === modalOverlay) {
+        closeModal();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeModal();
+      }
+    });
+
+    const quizQuestions = [
+      {
+        q: "What is the local name for the Whale Shark in Bicol?",
+        options: ["Pawikan", "Dugong", "Butanding", "Tarsier"],
+        ans: 2
+      },
+      {
+        q: "The Luzon Bleeding-Heart is famous for the red mark on its breast. What type of animal is it?",
+        options: ["A fruit bat", "A frog", "A deer", "A ground-dwelling pigeon"],
+        ans: 3
+      },
+      {
+        q: "Which Bicol destination is internationally known for whale shark encounters?",
+        options: ["Donsol, Sorsogon", "Naga, Camarines Sur", "Daet, Camarines Norte", "Virac, Catanduanes"],
+        ans: 0
+      },
+      {
+        q: "What is the Giant Golden-Crowned Flying Fox?",
+        options: ["A bird of prey", "One of the world's largest bats", "A marine predator", "A tree-climbing mammal"],
+        ans: 1
+      },
+      {
+        q: "Which shark is recognized by its exceptionally long upper tail fin?",
+        options: ["Great White Shark", "Tiger Shark", "Thresher Shark", "Hammerhead Shark"],
+        ans: 2
+      }
+    ];
+
+    function initDailyQuiz() {
+      const today = Math.floor(Date.now() / 86400000);
+      const questionIndex = today % quizQuestions.length;
+      const quiz = quizQuestions[questionIndex];
+
+      const quizBody = document.getElementById("quiz-body");
+      const widget = document.getElementById("quiz-widget");
+      const toggleBtn = document.getElementById("quiz-toggle-btn");
+      const closeBtn = document.getElementById("close-quiz");
+
+      const savedRaw = localStorage.getItem("dailyQuizState");
+      const saved = savedRaw ? JSON.parse(savedRaw) : null;
+      const isLocked = !!(saved && saved.date === today);
+
+      // The close button only becomes usable once today's question has
+      // been answered (either just now, or already answered earlier today).
+      function setCloseEnabled(enabled) {
+        closeBtn.disabled = !enabled;
+        closeBtn.title = enabled ? "Close" : "Answer the question to close";
+      }
+
+      setCloseEnabled(isLocked);
+
+      function renderQuestion() {
+        const optionsHTML = quiz.options.map((opt, i) =>
+          `<button class="quiz-btn" data-index="${i}" ${isLocked ? "disabled" : ""}>${opt}</button>`
+        ).join("");
+
+        quizBody.innerHTML = `
+          <div class="quiz-question">${quiz.q}</div>
+          <div class="quiz-options">${optionsHTML}</div>
+          <div id="quiz-feedback" class="quiz-feedback"></div>
+          ${isLocked
+            ? '<div class="quiz-locked-note">✓ Your answer is locked in for today. A new question arrives tomorrow!</div>'
+            : '<div class="quiz-answer-note">Answer to unlock the close button.</div>'}
+        `;
+
+        const btns = Array.from(document.querySelectorAll(".quiz-btn"));
+        const feedback = document.getElementById("quiz-feedback");
+
+        if (isLocked) {
+          btns[quiz.ans].classList.add("correct");
+          if (saved.selected !== quiz.ans) {
+            btns[saved.selected].classList.add("wrong");
+          }
+          feedback.style.display = "block";
+          feedback.innerHTML = saved.correct
+            ? "You got it right today! 🎉"
+            : "You already answered this one for today.";
+          feedback.style.color = saved.correct ? "var(--green)" : "#ef4444";
+          btns.forEach(b => { b.style.opacity = "0.8"; });
+          return;
+        }
+
+        btns.forEach(btn => {
+          btn.addEventListener("click", function handleAnswer() {
+            const selected = parseInt(this.getAttribute("data-index"));
+            localStorage.setItem("dailyQuizState", JSON.stringify({
+              date: today,
+              selected,
+              correct: selected === quiz.ans
+            }));
+
+            feedback.style.display = "block";
+
+            if (selected === quiz.ans) {
+              this.classList.add("correct");
+              feedback.innerHTML = "Correct! Great job! 🎉";
+              feedback.style.color = "var(--green)";
+            } else {
+              this.classList.add("wrong");
+              btns[quiz.ans].classList.add("correct");
+              feedback.innerHTML = "Oops! Better luck tomorrow.";
+              feedback.style.color = "#ef4444";
+            }
+
+            btns.forEach(b => {
+              b.disabled = true;
+              b.style.pointerEvents = "none";
+              b.style.opacity = "0.7";
+            });
+
+            // Now that they've answered, the widget can be closed.
+            setCloseEnabled(true);
+
+            const note = quizBody.querySelector(".quiz-answer-note");
+            if (note) {
+              note.textContent = "✓ You can close this now. See you tomorrow!";
+            }
+          }, { once: true });
+        });
+      }
+
+      renderQuestion();
+
+      closeBtn.addEventListener("click", () => {
+        if (closeBtn.disabled) return;
+        widget.classList.add("hidden");
+        toggleBtn.classList.add("show");
+      });
+
+      toggleBtn.addEventListener("click", () => {
+        widget.classList.remove("hidden");
+        toggleBtn.classList.remove("show");
+      });
+    }
+
+    initDailyQuiz();
+
+  </script>
+<!-- Default Statcounter code for My school project
+https://nicokitsu-eng.github.io/My-school-Project/ -->
+<script type="text/javascript">
+var sc_project=13350508; 
+var sc_invisible=0; 
+var sc_security="cbc9ca6d"; 
+var scJsHost = "https://";
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter"><a title="free hit
+counter" href="https://statcounter.com/"
+target="_blank"><img class="statcounter"
+src="https://c.statcounter.com/13350508/0/cbc9ca6d/0/"
+alt="free hit counter"
+referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
+<!-- End of Statcounter Code -->
+<a href="https://statcounter.com/p13350508/?guest=1">View My
+Stats</a>
+</body>
+</html>
